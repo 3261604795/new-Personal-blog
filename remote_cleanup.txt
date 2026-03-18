@@ -1,3 +1,0 @@
-rm -f /var/www/personal-blog/remote_fix_probe.txt
-rm -f /var/www/personal-blog/remote_node20_probe.txt
-ls -la /var/www/personal-blog | sed -n '1,120p'

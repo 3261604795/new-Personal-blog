@@ -1,5 +1,0 @@
-nginx -T | sed -n '1,260p'
-ls -la /www/server/panel/vhost/nginx
-grep -R "poppis.top\\|www.poppis.top\\|123.57.181.242\\|personal-blog" /www/server/panel/vhost/nginx || true
-curl -I --max-time 15 -H "Host: poppis.top" http://127.0.0.1/
-curl -I --max-time 15 -H "Host: www.poppis.top" http://127.0.0.1/

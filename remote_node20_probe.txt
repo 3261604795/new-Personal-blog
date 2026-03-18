@@ -1,1 +1,0 @@
-curl -I --max-time 20 https://nodejs.org/dist/v20.20.0/node-v20.20.0-linux-x64.tar.xz || true

@@ -1,2 +1,0 @@
-env PATH=/opt/node20-personal-blog/bin:$PATH pm2 startup systemd -u root --hp /root
-env PATH=/opt/node20-personal-blog/bin:$PATH pm2 save

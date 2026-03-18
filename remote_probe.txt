@@ -1,7 +1,0 @@
-uname -a
-cat /etc/os-release
-ss -ltnp | grep -E ':15415|:3001|:80|:443' || true
-which git || true
-which node || true
-which npm || true
-which pm2 || true

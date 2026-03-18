@@ -1,2 +1,0 @@
-ls -la /www/server/panel/vhost/nginx
-for f in /www/server/panel/vhost/nginx/*.conf; do echo "===== $f ====="; sed -n '1,220p' "$f"; done

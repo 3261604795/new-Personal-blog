@@ -1,6 +1,0 @@
-node -v
-npm -v
-curl -I --max-time 15 https://nodejs.org || true
-curl -I --max-time 15 https://registry.npmjs.org || true
-dnf --version
-dnf list --showduplicates nodejs | head -n 20 || true
