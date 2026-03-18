@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的个人博客</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <% const featuredPost = posts[0]; %>
+  <% const spotlightPosts = posts.slice(1, 4); %>
+  <% const secondaryPosts = posts.slice(4); %>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a href="/" class="brand-mark gradient-button" aria-label="Poppis">
+        <span class="gradient-text">Poppis</span>
+      </a>
+      <div class="header-content">
+        <div class="brand-block">
+          <p class="brand-kicker">Personal Edition</p>
+          <h1 class="logo"><a href="/">我的博客</a></h1>
+        </div>
+        <nav class="nav">
+          <a href="/" class="active">首页</a>
+          <a href="/about">关于我</a>
+          <% if (user) { %>
+            <a href="/poppis-console/dashboard">后台管理</a>
+          <% } %>
+        </nav>
+      </div>
+      <form class="search-box" role="search">
+        <label class="sr-only" for="searchInput">搜索文章</label>
+        <input type="text" placeholder="搜索文章..." id="searchInput" aria-label="搜索文章">
+      </form>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="hero-eyebrow">写作、观察、沉淀</p>
+          <h2 class="hero-title">把技术和生活写成一份有节奏的私人刊物。</h2>
+          <p class="hero-description">这里记录长期值得回看的东西。偏爱清晰表达、真实经验和能带来下一步行动的内容。</p>
+          <div class="hero-actions">
+            <a href="#latest-posts" class="btn btn-primary">开始阅读</a>
+            <a href="/about" class="btn btn-ghost">认识作者</a>
+          </div>
+          <div class="hero-metrics">
+            <div class="metric-card">
+              <span class="metric-value"><%= posts.length %></span>
+              <span class="metric-label">本页文章</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-value"><%= currentPage %>/<%= totalPages || 1 %></span>
+              <span class="metric-label">分页进度</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-value">持续</span>
+              <span class="metric-label">长期写作</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <% if (featuredPost) { %>
+            <article class="feature-card">
+              <div class="feature-copy">
+                <p class="feature-label">编辑推荐</p>
+                <h3><a href="/post/<%= featuredPost.slug %>"><%= featuredPost.title %></a></h3>
+                <div class="post-meta">
+                  <% if (featuredPost.category_name) { %>
+                    <span class="category"><%= featuredPost.category_name %></span>
+                  <% } %>
+                  <span class="date"><%= new Date(featuredPost.created_at).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+                  <span class="read-time"><%= Math.ceil(featuredPost.content.length / 400) %> 分钟阅读</span>
+                </div>
+                <% if (featuredPost.excerpt) { %>
+                  <p class="feature-excerpt"><%= featuredPost.excerpt %></p>
+                <% } %>
+                <% if (featuredPost.tags && featuredPost.tags.length > 0) { %>
+                  <div class="post-tags">
+                    <% featuredPost.tags.slice(0, 3).forEach(tag => { %>
+                      <a href="/tag/<%= tag.slug %>" class="tag"><%= tag.name %></a>
+                    <% }) %>
+                  </div>
+                <% } %>
+              </div>
+              <% if (featuredPost.cover_image) { %>
+                <div class="feature-cover post-cover-container">
+                  <img data-src="<%= featuredPost.cover_image %>" alt="<%= featuredPost.title %>" class="post-cover">
+                </div>
+              <% } %>
+            </article>
+          <% } else { %>
+            <div class="feature-empty">
+              <p class="feature-label">准备开刊</p>
+              <h3>第一篇文章会出现在这里</h3>
+              <p>发布后，首页将自动形成一张更有层次感的编辑首页。</p>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </section>
+
+    <% if (spotlightPosts.length > 0) { %>
+      <section class="spotlight-section">
+        <div class="container spotlight-shell">
+          <div class="section-heading compact-heading">
+            <div>
+              <p class="section-kicker">Editors' Notes</p>
+              <h2 class="section-title">快速浏览</h2>
+            </div>
+            <p class="section-note">把最近几篇文章压缩成一组更轻量的入口，适合先扫一眼再决定读哪篇。</p>
+          </div>
+          <div class="spotlight-grid">
+            <% spotlightPosts.forEach(post => { %>
+              <article class="spotlight-card">
+                <div class="spotlight-meta">
+                  <% if (post.category_name) { %>
+                    <span class="category"><%= post.category_name %></span>
+                  <% } %>
+                  <span class="date"><%= new Date(post.created_at).toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' }) %></span>
+                </div>
+                <h3><a href="/post/<%= post.slug %>"><%= post.title %></a></h3>
+                <% if (post.excerpt) { %>
+                  <p><%= post.excerpt %></p>
+                <% } %>
+                <span class="spotlight-link">继续阅读</span>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+    <% } %>
+
+    <section class="content-section" id="latest-posts">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Latest Essays</p>
+            <h2 class="section-title">最近更新</h2>
+          </div>
+          <p class="section-note">更像一本持续更新的私人物志，而不是单纯的文章堆叠。</p>
+        </div>
+
+        <% if (secondaryPosts.length > 0) { %>
+          <div class="posts-grid">
+            <% secondaryPosts.forEach(post => { %>
+              <article class="post-card">
+                <% if (post.cover_image) { %>
+                  <div class="post-cover-container">
+                    <img data-src="<%= post.cover_image %>" alt="<%= post.title %>" class="post-cover">
+                  </div>
+                <% } %>
+                <div class="post-content">
+                  <div class="post-meta">
+                    <% if (post.category_name) { %>
+                      <span class="category"><%= post.category_name %></span>
+                    <% } %>
+                    <span class="date"><%= new Date(post.created_at).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+                  </div>
+                  <h3 class="post-title">
+                    <a href="/post/<%= post.slug %>"><%= post.title %></a>
+                  </h3>
+                  <% if (post.excerpt) { %>
+                    <p class="post-excerpt"><%= post.excerpt %></p>
+                  <% } %>
+                  <div class="post-footer">
+                    <span class="read-time"><%= Math.ceil(post.content.length / 400) %> 分钟阅读</span>
+                    <% if (post.tags && post.tags.length > 0) { %>
+                      <div class="post-tags">
+                        <% post.tags.slice(0, 3).forEach(tag => { %>
+                          <a href="/tag/<%= tag.slug %>" class="tag"><%= tag.name %></a>
+                        <% }) %>
+                      </div>
+                    <% } %>
+                  </div>
+                </div>
+              </article>
+            <% }) %>
+          </div>
+        <% } else if (!featuredPost) { %>
+          <div class="empty-state">
+            <p class="empty-kicker">No posts yet</p>
+            <h2>还没有已发布的文章</h2>
+            <p>你可以先去后台写下第一篇内容，发布后首页会自动成为一张完整的内容封面。</p>
+            <% if (user) { %>
+          <a href="/poppis-console/posts/new" class="btn btn-primary">去写第一篇</a>
+            <% } %>
+          </div>
+        <% } %>
+
+        <% if (totalPages > 1) { %>
+          <div class="pagination">
+            <% if (currentPage > 1) { %>
+              <a href="?page=<%= currentPage - 1 %>" class="page-link">上一页</a>
+            <% } %>
+            <% for (let i = 1; i <= totalPages; i++) { %>
+              <a href="?page=<%= i %>" class="page-link <%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+            <% } %>
+            <% if (currentPage < totalPages) { %>
+              <a href="?page=<%= currentPage + 1 %>" class="page-link">下一页</a>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
+    </section>
+
+    <section class="manifesto-section">
+      <div class="container manifesto-grid">
+        <div class="manifesto-panel">
+          <p class="section-kicker">Why this blog</p>
+          <h2 class="section-title">做一份值得反复打开的个人内容样本。</h2>
+          <p class="manifesto-copy">这里不追求日更节奏，而是追求内容的停留时间。每一篇文章都尽量具备一个明确问题、一个真实经验和一个可继续延展的观点。</p>
+        </div>
+        <div class="manifesto-list">
+          <div class="manifesto-item">
+            <span class="manifesto-index">01</span>
+            <div>
+              <h3>有主题</h3>
+              <p>分类和标签会逐渐形成长期脉络，而不是零散更新。</p>
+            </div>
+          </div>
+          <div class="manifesto-item">
+            <span class="manifesto-index">02</span>
+            <div>
+              <h3>有质感</h3>
+              <p>页面像一本正在经营的私人刊物，而不是默认模板站。</p>
+            </div>
+          </div>
+          <div class="manifesto-item">
+            <span class="manifesto-index">03</span>
+            <div>
+              <h3>有延续</h3>
+              <p>每篇内容都能和过去或将来的文章继续串联起来。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-kicker">Poppis Personal Blog</p>
+        <h3>像一本长期经营的私人杂志。</h3>
+      </div>
+      <div class="footer-links">
+        <a href="/">首页</a>
+        <a href="/about">关于我</a>
+        <% if (user) { %>
+          <a href="/poppis-console/dashboard">内容工作台</a>
+        <% } %>
+      </div>
+      <p class="footer-copy">&copy; 2026 我的个人博客. 保留所有权利。</p>
+      <p class="footer-copy">
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">陕ICP备2026005403号</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="/js/lazyload.js"></script>
+</body>
+</html>

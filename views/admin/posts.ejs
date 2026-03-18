@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文章管理 - 后台管理</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="admin-brand-mark gradient-button" aria-label="Poppis">
+          <span class="gradient-text">Poppis</span>
+        </a>
+        <div>
+          <p class="admin-kicker">Content Studio</p>
+          <h2>后台管理</h2>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/poppis-console/dashboard" class="nav-item">仪表盘</a>
+        <a href="/poppis-console/posts" class="nav-item active">文章管理</a>
+        <a href="/poppis-console/categories" class="nav-item">分类管理</a>
+        <a href="/poppis-console/tags" class="nav-item">标签管理</a>
+        <a href="/poppis-console/about" class="nav-item">关于我</a>
+        <a href="/poppis-console/logout" class="nav-item logout">退出登录</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-header">
+        <div>
+          <p class="admin-kicker">Articles</p>
+          <h1>文章管理</h1>
+          <p class="admin-lead">这里集中查看文章状态、发布时间和阅读量，方便快速进入编辑流程。</p>
+        </div>
+        <a href="/poppis-console/posts/new" class="btn btn-primary">新建文章</a>
+      </div>
+
+      <div class="admin-inline-summary">
+        <div class="summary-chip">
+          <strong><%= posts.length %></strong>
+          <span>当前文章数</span>
+        </div>
+        <div class="summary-chip">
+          <strong><%= posts.filter(post => post.status === 'published').length %></strong>
+          <span>已发布</span>
+        </div>
+        <div class="summary-chip">
+          <strong><%= posts.filter(post => post.status === 'draft').length %></strong>
+          <span>草稿</span>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>标题</th>
+              <th>分类</th>
+              <th>状态</th>
+              <th>创建时间</th>
+              <th>阅读量</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% posts.forEach(post => { %>
+              <tr>
+                <td><strong><%= post.title %></strong></td>
+                <td><%= post.category_name || '-' %></td>
+                <td>
+                  <span class="status status-<%= post.status %>"><%= post.status === 'published' ? '已发布' : '草稿' %></span>
+                </td>
+                <td><%= new Date(post.created_at).toLocaleDateString('zh-CN') %></td>
+                <td><%= post.views %></td>
+                <td class="table-actions">
+                  <a href="/poppis-console/posts/<%= post.id %>/edit" class="btn btn-sm btn-secondary">编辑</a>
+                  <form method="POST" action="/poppis-console/posts/<%= post.id %>/delete" onsubmit="return confirm('确定要删除这篇文章吗？')" style="display: inline;">
+                    <button type="submit" class="btn btn-sm btn-danger">删除</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

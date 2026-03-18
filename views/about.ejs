@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于我 - 我的个人博客</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="/" class="brand-mark gradient-button" aria-label="Poppis">
+        <span class="gradient-text">Poppis</span>
+      </a>
+      <div class="header-content">
+        <div class="brand-block">
+          <p class="brand-kicker">About</p>
+          <h1 class="logo"><a href="/">我的博客</a></h1>
+        </div>
+        <nav class="nav">
+          <a href="/">首页</a>
+          <a href="/about" class="active">关于我</a>
+          <% if (user) { %>
+            <a href="/poppis-console/dashboard">后台管理</a>
+          <% } %>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container prose-shell">
+      <section class="page-hero">
+        <p class="section-kicker">Profile</p>
+        <h1 class="page-title">关于我</h1>
+        <p class="page-summary">这里不是标准简历，更像一页持续更新的作者侧写，记录我关心的问题、写作方向和做事方式。</p>
+      </section>
+
+      <section class="about-highlights">
+        <div class="about-highlight-card">
+          <span class="manifesto-index">写</span>
+          <div>
+            <h3>长期写作</h3>
+            <p>记录那些值得沉淀、能反复回看的主题。</p>
+          </div>
+        </div>
+        <div class="about-highlight-card">
+          <span class="manifesto-index">做</span>
+          <div>
+            <h3>持续实践</h3>
+            <p>把想法和项目都落到真实页面、真实内容里。</p>
+          </div>
+        </div>
+        <div class="about-highlight-card">
+          <span class="manifesto-index">想</span>
+          <div>
+            <h3>保留判断</h3>
+            <p>不追求信息堆积，更重视清晰表达与长期价值。</p>
+          </div>
+        </div>
+      </section>
+
+      <article class="about-page">
+        <div class="about-content">
+          <%- about.content %>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-kicker">About the author</p>
+        <h3>欢迎通过文章先认识我。</h3>
+      </div>
+      <div class="footer-links">
+        <a href="/">首页</a>
+        <% if (user) { %>
+          <a href="/poppis-console/dashboard">工作台</a>
+        <% } %>
+      </div>
+      <p class="footer-copy">&copy; 2026 我的个人博客.</p>
+    </div>
+  </footer>
+</body>
+</html>

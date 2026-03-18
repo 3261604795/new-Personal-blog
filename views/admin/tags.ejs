@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>标签管理 - 后台管理</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="admin-brand-mark gradient-button" aria-label="Poppis">
+          <span class="gradient-text">Poppis</span>
+        </a>
+        <div>
+          <p class="admin-kicker">Content Studio</p>
+          <h2>后台管理</h2>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/poppis-console/dashboard" class="nav-item">仪表盘</a>
+        <a href="/poppis-console/posts" class="nav-item">文章管理</a>
+        <a href="/poppis-console/categories" class="nav-item">分类管理</a>
+        <a href="/poppis-console/tags" class="nav-item active">标签管理</a>
+        <a href="/poppis-console/about" class="nav-item">关于我</a>
+        <a href="/poppis-console/logout" class="nav-item logout">退出登录</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-header">
+        <div>
+          <p class="admin-kicker">Taxonomy</p>
+          <h1>标签管理</h1>
+          <p class="admin-lead">标签适合细颗粒度描述，能增强内容之间的横向关联。</p>
+        </div>
+      </div>
+
+      <% if (error) { %>
+        <div class="alert alert-error"><%= error %></div>
+      <% } %>
+
+      <div class="form-card">
+        <div class="section-head">
+          <div>
+            <p class="admin-kicker">Create</p>
+            <h2>新建标签</h2>
+          </div>
+        </div>
+        <form method="POST" action="/poppis-console/tags" class="inline-form">
+          <div class="form-group-inline">
+            <input type="text" name="name" placeholder="标签名称" required>
+            <input type="text" name="slug" placeholder="URL别名" required>
+            <button type="submit" class="btn btn-primary">添加</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>标签名称</th>
+              <th>URL别名</th>
+              <th>创建时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% tags.forEach(tag => { %>
+              <tr>
+                <td><%= tag.id %></td>
+                <td><strong><%= tag.name %></strong></td>
+                <td><%= tag.slug %></td>
+                <td><%= new Date(tag.created_at).toLocaleDateString('zh-CN') %></td>
+                <td class="table-actions">
+                  <form method="POST" action="/poppis-console/tags/<%= tag.id %>/delete" onsubmit="return confirm('确定要删除这个标签吗？')" style="display: inline;">
+                    <button type="submit" class="btn btn-sm btn-danger">删除</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= post ? '编辑文章' : '新建文章' %> - 后台管理</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="admin-brand-mark gradient-button" aria-label="Poppis">
+          <span class="gradient-text">Poppis</span>
+        </a>
+        <div>
+          <p class="admin-kicker">Content Studio</p>
+          <h2>后台管理</h2>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/poppis-console/dashboard" class="nav-item">仪表盘</a>
+        <a href="/poppis-console/posts" class="nav-item active">文章管理</a>
+        <a href="/poppis-console/categories" class="nav-item">分类管理</a>
+        <a href="/poppis-console/tags" class="nav-item">标签管理</a>
+        <a href="/poppis-console/about" class="nav-item">关于我</a>
+        <a href="/poppis-console/logout" class="nav-item logout">退出登录</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-header">
+        <div>
+          <p class="admin-kicker">Editor</p>
+          <h1><%= post ? '编辑文章' : '新建文章' %></h1>
+          <p class="admin-lead">保持标题、摘要、正文和结构信息的清晰度，页面发布后会直接进入前台展示。</p>
+        </div>
+        <a href="/poppis-console/posts" class="btn btn-secondary">返回列表</a>
+      </div>
+
+      <% if (error) { %>
+        <div class="alert alert-error"><%= error %></div>
+      <% } %>
+
+      <div class="editor-layout">
+        <div class="form-card">
+          <form method="POST" action="<%= post ? '/poppis-console/posts/' + post.id : '/poppis-console/posts' %>" enctype="multipart/form-data" class="post-form">
+            <div class="form-group">
+              <label for="title">标题 *</label>
+              <input type="text" id="title" name="title" value="<%= post ? post.title : '' %>" required>
+            </div>
+
+            <div class="form-group">
+              <label for="slug">URL别名 (Slug) *</label>
+              <input type="text" id="slug" name="slug" value="<%= post ? post.slug : '' %>" required>
+              <small>只能包含字母、数字和连字符，用于生成文章 URL。</small>
+            </div>
+
+            <div class="form-group">
+              <label for="excerpt">摘要</label>
+              <textarea id="excerpt" name="excerpt" rows="3"><%= post ? post.excerpt || '' : '' %></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="content">正文内容 * (支持 Markdown)</label>
+              <textarea id="content" name="content" rows="20" required><%= post ? post.content : '' %></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="cover_image">封面图片</label>
+              <input type="file" id="cover_image" name="cover_image" accept="image/*">
+              <% if (post && post.cover_image) { %>
+                <div class="current-image">
+                  <img src="<%= post.cover_image %>" alt="当前封面">
+                  <small>当前封面</small>
+                </div>
+              <% } %>
+            </div>
+
+            <div class="form-group">
+              <label for="category_id">分类</label>
+              <select id="category_id" name="category_id">
+                <option value="">无分类</option>
+                <% categories.forEach(cat => { %>
+                  <option value="<%= cat.id %>" <%= post && post.category_id === cat.id ? 'selected' : '' %>><%= cat.name %></option>
+                <% }) %>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>标签</label>
+              <div class="checkbox-group">
+                <% tags.forEach(tag => { %>
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="tags" value="<%= tag.id %>" <%= selectedTags && selectedTags.includes(tag.id) ? 'checked' : '' %>>
+                    <span><%= tag.name %></span>
+                  </label>
+                <% }) %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="status">状态</label>
+              <select id="status" name="status">
+                <option value="published" <%= post && post.status === 'published' ? 'selected' : '' %>>已发布</option>
+                <option value="draft" <%= post && post.status === 'draft' ? 'selected' : '' %>>草稿</option>
+              </select>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary"><%= post ? '更新文章' : '发布文章' %></button>
+              <a href="/poppis-console/posts" class="btn btn-secondary">取消</a>
+            </div>
+          </form>
+        </div>
+
+        <aside class="editor-side-panel">
+          <p class="admin-kicker">Writing Notes</p>
+          <h2>让每篇文章都更像一个完整条目。</h2>
+          <ul class="editor-note-list">
+            <li>标题尽量具体，不要只写抽象主题。</li>
+            <li>摘要适合写成一句“为什么值得读”。</li>
+            <li>分类负责长期结构，标签负责横向关联。</li>
+            <li>封面建议统一比例，首页会更整齐。</li>
+          </ul>
+        </aside>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>分类管理 - 后台管理</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="admin-brand-mark gradient-button" aria-label="Poppis">
+          <span class="gradient-text">Poppis</span>
+        </a>
+        <div>
+          <p class="admin-kicker">Content Studio</p>
+          <h2>后台管理</h2>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/poppis-console/dashboard" class="nav-item">仪表盘</a>
+        <a href="/poppis-console/posts" class="nav-item">文章管理</a>
+        <a href="/poppis-console/categories" class="nav-item active">分类管理</a>
+        <a href="/poppis-console/tags" class="nav-item">标签管理</a>
+        <a href="/poppis-console/about" class="nav-item">关于我</a>
+        <a href="/poppis-console/logout" class="nav-item logout">退出登录</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-header">
+        <div>
+          <p class="admin-kicker">Taxonomy</p>
+          <h1>分类管理</h1>
+          <p class="admin-lead">分类适合建立大的主题结构，保证前台归档页有清晰层次。</p>
+        </div>
+      </div>
+
+      <% if (error) { %>
+        <div class="alert alert-error"><%= error %></div>
+      <% } %>
+
+      <div class="form-card">
+        <div class="section-head">
+          <div>
+            <p class="admin-kicker">Create</p>
+            <h2>新建分类</h2>
+          </div>
+        </div>
+        <form method="POST" action="/poppis-console/categories" class="inline-form">
+          <div class="form-group-inline">
+            <input type="text" name="name" placeholder="分类名称" required>
+            <input type="text" name="slug" placeholder="URL别名" required>
+            <button type="submit" class="btn btn-primary">添加</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>分类名称</th>
+              <th>URL别名</th>
+              <th>创建时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% categories.forEach(cat => { %>
+              <tr>
+                <td><%= cat.id %></td>
+                <td><strong><%= cat.name %></strong></td>
+                <td><%= cat.slug %></td>
+                <td><%= new Date(cat.created_at).toLocaleDateString('zh-CN') %></td>
+                <td class="table-actions">
+                  <form method="POST" action="/poppis-console/categories/<%= cat.id %>/delete" onsubmit="return confirm('确定要删除这个分类吗？')" style="display: inline;">
+                    <button type="submit" class="btn btn-sm btn-danger">删除</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

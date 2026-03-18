@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>后台管理 - 我的个人博客</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="admin-brand-mark gradient-button" aria-label="Poppis">
+          <span class="gradient-text">Poppis</span>
+        </a>
+        <div>
+          <p class="admin-kicker">Content Studio</p>
+          <h2>后台管理</h2>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/poppis-console/dashboard" class="nav-item active">仪表盘</a>
+        <a href="/poppis-console/posts" class="nav-item">文章管理</a>
+        <a href="/poppis-console/categories" class="nav-item">分类管理</a>
+        <a href="/poppis-console/tags" class="nav-item">标签管理</a>
+        <a href="/poppis-console/about" class="nav-item">关于我</a>
+        <a href="/poppis-console/logout" class="nav-item logout">退出登录</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-header">
+        <div>
+          <p class="admin-kicker">Dashboard</p>
+          <h1>仪表盘</h1>
+          <p class="admin-lead">欢迎回来，<%= user.username %>。今天适合整理选题、检查归档，然后继续发布新内容。</p>
+        </div>
+        <a href="/poppis-console/posts/new" class="btn btn-primary">新建文章</a>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-icon">P</span>
+          <div class="stat-info">
+            <div class="stat-number"><%= stats.posts %></div>
+            <div class="stat-label">文章总数</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">C</span>
+          <div class="stat-info">
+            <div class="stat-number"><%= stats.categories %></div>
+            <div class="stat-label">分类总数</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">T</span>
+          <div class="stat-info">
+            <div class="stat-number"><%= stats.tags %></div>
+            <div class="stat-label">标签总数</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-split-grid">
+        <section class="quick-actions">
+          <div class="section-head">
+            <div>
+              <p class="admin-kicker">Workflow</p>
+              <h2>快速操作</h2>
+            </div>
+            <p class="section-note">常用入口集中到一起，减少切换成本。</p>
+          </div>
+          <div class="action-buttons">
+            <a href="/poppis-console/posts/new" class="btn btn-primary">写新文章</a>
+            <a href="/poppis-console/categories" class="btn btn-secondary">整理分类</a>
+            <a href="/poppis-console/tags" class="btn btn-secondary">维护标签</a>
+            <a href="/poppis-console/about" class="btn btn-secondary">更新关于页</a>
+          </div>
+        </section>
+
+        <section class="admin-note-panel">
+          <p class="admin-kicker">Studio Note</p>
+          <h2>把后台也做成一个内容创作界面。</h2>
+          <p>现在这套后台不只是管理页，而更像内容工作台。你可以从这里规划结构、整理主题，再把文章发布到前台的编辑式首页。</p>
+          <div class="admin-note-pills">
+            <span>Editorial</span>
+            <span>Glass</span>
+            <span>Gradient</span>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

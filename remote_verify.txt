@@ -1,0 +1,3 @@
+curl -I --max-time 15 http://127.0.0.1:3001
+curl -I --max-time 15 http://123.57.181.242:3001 || true
+PATH=/opt/node20-personal-blog/bin:$PATH pm2 logs personal-blog --lines 20 --nostream

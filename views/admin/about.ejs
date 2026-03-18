@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于我 - 后台管理</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="admin-brand-mark gradient-button" aria-label="Poppis">
+          <span class="gradient-text">Poppis</span>
+        </a>
+        <div>
+          <p class="admin-kicker">Content Studio</p>
+          <h2>后台管理</h2>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/poppis-console/dashboard" class="nav-item">仪表盘</a>
+        <a href="/poppis-console/posts" class="nav-item">文章管理</a>
+        <a href="/poppis-console/categories" class="nav-item">分类管理</a>
+        <a href="/poppis-console/tags" class="nav-item">标签管理</a>
+        <a href="/poppis-console/about" class="nav-item active">关于我</a>
+        <a href="/poppis-console/logout" class="nav-item logout">退出登录</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-header">
+        <div>
+          <p class="admin-kicker">Profile Page</p>
+          <h1>关于我页面管理</h1>
+          <p class="admin-lead">这一页会直接影响读者对作者的第一印象，建议持续维护，而不是一次性写完。</p>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="section-head">
+          <div>
+            <p class="admin-kicker">Edit</p>
+            <h2>编辑关于我页面</h2>
+          </div>
+        </div>
+        <form method="POST" action="/poppis-console/about" class="post-form">
+          <div class="form-group">
+            <label for="content">页面内容 (支持 HTML)</label>
+            <textarea id="content" name="content" rows="20" required><%= about.content %></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">保存</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
