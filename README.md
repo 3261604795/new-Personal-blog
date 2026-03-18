@@ -1,5 +1,15 @@
 # 个人博客 2.0
 
+## 界面预览
+
+### 首页
+
+![首页预览](public/images/readme-home.png)
+
+### 后台
+
+![后台预览](public/images/readme-admin.png)
+
 一个基于 Node.js + Express + SQLite 的个人博客系统，兼顾内容展示、后台管理和轻量部署体验。
 
 ## 项目亮点
